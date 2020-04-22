@@ -1,4 +1,4 @@
-package com.reactnativetemplate;
+package com.coronaupdates;
 
 import android.app.Application;
 import android.content.Context;

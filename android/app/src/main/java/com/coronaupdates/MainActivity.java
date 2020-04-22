@@ -1,4 +1,4 @@
-package com.reactnativetemplate;
+package com.coronaupdates;
 
 import com.facebook.react.ReactActivity;
  import com.facebook.react.ReactActivityDelegate;

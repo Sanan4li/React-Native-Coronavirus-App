@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import {StyleSheet, View, Text, TextInput, ScrollView, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Alert, TouchableOpacity} from 'react-native';
 import MyHeaderButton from "./MyHeaderButton";
 import { HeaderButtons , Item } from "react-navigation-header-buttons";
 import { TextButton, RaisedTextButton } from 'react-native-material-buttons';
 import PakistanComponent from "./PakistanComponent";
 import { Keyboard } from 'react-native';
-const covid = require('novelcovid');
+const { NovelCovid } = require('novelcovid');
+const covid = new NovelCovid();
  class FavScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -19,17 +20,20 @@ const covid = require('novelcovid');
         loading : true,
         countryName : '',
         countryFlag: '',
-        tableTitle: ['Country Name', "Cases", "Today Cases", "Deaths", "Today Deaths", "Recovered","Critical"],
-        heightArr : [40,40,40,40,40,40,40,],
+        tableTitle: ['Country Name', "Reported","Active", "Today Cases", "Deaths", "Today Deaths", "Recovered","Critical"],
+        heightArr : [40,40,40,40,40,40,40,40],
         
     }
   searchCountry = ()=>{
-    covid.getCountry({country: this.state.countryName}).then(
+      if(this.state.countryName==""){
+        Alert.alert("Enter Country", "Please Enter Country Name to Search", ["OK"])
+      }
+    covid.countries(this.state.countryName).then(
         (data)=>{
                     
             const tableData =[] ;
-            const keys = ["country", "cases", "todayCases", "deaths", "todayDeaths", "recovered", "critical"];
-             for(let i=0;i<7;i++){
+            const keys = ["country", "cases", "active", "todayCases", "deaths", "todayDeaths", "recovered", "critical"];
+             for(let i=0;i<8;i++){
                  const key = keys[i];
                  const item = data[key];
                    tableData.push(item);

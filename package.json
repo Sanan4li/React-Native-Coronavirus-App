@@ -10,7 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "novelcovid": "^1.0.7-b2",
+    "novelcovid": "^1.2.7",
     "react": "16.9.0",
     "react-native": "0.61.5",
     "react-native-collapsible": "^1.5.1",

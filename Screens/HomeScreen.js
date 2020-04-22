@@ -12,7 +12,8 @@ import {
     WaveIndicator,
   } from 'react-native-indicators';
 import { Table, TableWrapper, Row } from 'react-native-table-component';
-const covid = require('novelcovid');
+const { NovelCovid } = require('novelcovid');
+const covid = new NovelCovid();
  class HomeScreen extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
@@ -21,8 +22,8 @@ const covid = require('novelcovid');
         };
       };
       state = {
-        tableHead: ['Country Name', 'Cases', 'Today Cases', 'Deaths', 'Today Deaths', 'Recovered', 'Critical', ],
-        widthArr: [150, 100, 100, 100, 100, 100, 100, ],
+        tableHead: ['Country Name', 'Reported', 'Active', 'Today Cases', 'Deaths', 'Today Deaths', 'Recovered', 'Critical', ],
+        widthArr: [150, 100, 100, 100, 100,100, 100, 100, ],
         data : null,
         loading : true,
       }
@@ -30,13 +31,17 @@ const covid = require('novelcovid');
         
     }
       componentDidMount() {
-        covid.getCountry({sort: 'cases'}).then(
+        // covid.all().then(
+        //   (data)=>{
+        //     console.log(data);
+        //   }
+        // );
+        covid.countries(null,{sort: 'cases'}).then(
             (data)=>{
-                console.log("fetched")
+                console.log("fetched", data)
                 this.setState({
                     loading:false,
                     data,
-                   
                 },);
             }
         );
@@ -44,7 +49,7 @@ const covid = require('novelcovid');
 
       displayTable = ()=>{
          const data = this.state.data;
-        const keys = ["country", "cases", "todayCases","deaths", "todayDeaths", "recovered", "critical"]
+        const keys = ["country", "cases","active","todayCases","deaths", "todayDeaths", "recovered", "critical"]
         const tableData = [];
         for (let i = 0; i < data.length; i += 1) {
           const rowData = [];
@@ -61,11 +66,11 @@ const covid = require('novelcovid');
         let TableView = null;
         if(!this.state.loading){
         const data = this.state.data;
-        const keys = ["country", "cases", "todayCases","deaths", "todayDeaths", "recovered", "critical"]
+        const keys = ["country", "cases","active", "todayCases","deaths", "todayDeaths", "recovered", "critical"]
         const tableData = [];
         for (let i = 0; i < data.length; i += 1) {
           const rowData = [];
-          for (let j = 0; j < 7; j += 1) {
+          for (let j = 0; j < 8; j += 1) {
             rowData.push(data[i][keys[j]]);
           }
           tableData.push(rowData);
